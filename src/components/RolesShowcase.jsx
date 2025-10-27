@@ -1,53 +1,75 @@
+import React from 'react';
+import { Shield, Settings, User } from 'lucide-react';
+
 const roles = [
   {
-    title: 'Admin',
-    color: 'from-cyan-500 to-blue-500',
-    points: [
-      'Manage users, roles, locations, areas, SLA rules',
-      'Global assign/reassign and auto-assignment settings',
-      'Notification templates, audit logs, and system settings',
+    name: 'Admin',
+    icon: Shield,
+    features: [
+      'Manage users & roles',
+      'Configure SLAs & categories',
+      'Global reporting insights',
     ],
+    tone: 'from-emerald-500/20 to-emerald-500/0',
   },
   {
-    title: 'Manager',
-    color: 'from-emerald-500 to-teal-500',
-    points: [
-      'View and manage tickets for assigned locations',
-      'Assign, change status/priority/SLA, close/reopen',
-      'Access dashboards, receive lifecycle notifications',
+    name: 'Manager',
+    icon: Settings,
+    features: [
+      'Assign & prioritize tickets',
+      'Monitor team workload',
+      'Approve escalations',
     ],
+    tone: 'from-blue-500/20 to-blue-500/0',
   },
   {
-    title: 'User',
-    color: 'from-violet-500 to-fuchsia-500',
-    points: [
-      'Create tickets with attachments',
-      'Track, comment, rate and provide feedback',
-      'Mobile-friendly experience with alerts',
+    name: 'User',
+    icon: User,
+    features: [
+      'Create & track tickets',
+      'Attach files & notes',
+      'Receive notifications',
     ],
+    tone: 'from-amber-500/20 to-amber-500/0',
   },
 ];
 
 export default function RolesShowcase() {
   return (
-    <section className="w-full bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">Role-based Controls</h2>
-        <p className="mt-2 text-gray-600">Clear responsibilities across Admins, Managers, and Users.</p>
+    <section id="roles" className="w-full">
+      <div className="mx-auto max-w-6xl px-6 md:px-10">
+        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+          <h2 className="text-xl font-semibold text-white">Roles & permissions</h2>
+          <p className="mt-1 text-sm text-white/70">
+            Clear responsibilities for each role to keep ownership simple and effective.
+          </p>
 
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-          {roles.map((r) => (
-            <div key={r.title} className="rounded-2xl p-1 bg-gradient-to-br shadow-sm from-gray-200 to-gray-100">
-              <div className={`rounded-xl p-5 bg-white h-full`}>
-                <div className={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium text-white bg-gradient-to-r ${r.color}`}>{r.title}</div>
-                <ul className="mt-3 space-y-2 text-sm text-gray-700 list-disc list-inside">
-                  {r.points.map((p, i) => (
-                    <li key={i}>{p}</li>
-                  ))}
-                </ul>
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {roles.map((r) => (
+              <div
+                key={r.name}
+                className="relative rounded-2xl border border-white/10 bg-black/30 p-5"
+              >
+                <div className={`pointer-events-none absolute -inset-px rounded-2xl bg-gradient-to-b ${r.tone}`} />
+                <div className="relative">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-white/10">
+                      <r.icon className="h-5 w-5 text-white" />
+                    </div>
+                    <h3 className="text-base font-medium text-white">{r.name}</h3>
+                  </div>
+                  <ul className="mt-4 space-y-2 text-sm text-white/80">
+                    {r.features.map((f) => (
+                      <li key={f} className="flex items-center gap-2">
+                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-white/40" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

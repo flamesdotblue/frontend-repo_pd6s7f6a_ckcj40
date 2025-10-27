@@ -1,76 +1,114 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+
+const TEST_CREDENTIALS = [
+  { role: 'Admin', username: 'admin', password: 'admin123' },
+  { role: 'Manager', username: 'manager', password: 'manager123' },
+  { role: 'User', username: 'user', password: 'user123' },
+];
 
 export default function LoginPanel() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
+  const [role, setRole] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    // This is a UI-only stub for now. Hook to backend auth later.
+    setMessage('');
+
+    // Simulate async auth check
     setTimeout(() => {
+      const found = TEST_CREDENTIALS.find(
+        (c) => c.username === username && c.password === password
+      );
+      if (found) {
+        setRole(found.role);
+        setMessage(`Success! Logged in as ${found.role}.`);
+      } else {
+        setRole('');
+        setMessage('Invalid username or password.');
+      }
       setLoading(false);
-      alert(`Welcome, ${username || 'user'}!`);
-    }, 800);
-  };
+    }, 500);
+  }
 
   return (
-    <section id="login" className="w-full bg-white">
-      <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-900">Username-based Login</h2>
-          <p className="mt-2 text-gray-600">
-            Sign in using your organization username. Secure sessions with modern authentication and role-based permissions.
-          </p>
-          <ul className="mt-4 text-sm text-gray-700 space-y-1 list-disc list-inside">
-            <li>No email required — usernames only</li>
-            <li>Role-aware access for Admins, Managers, and Users</li>
-            <li>Mobile-friendly and responsive</li>
-          </ul>
+    <section id="login" className="w-full">
+      <div className="mx-auto max-w-6xl px-6 md:px-10">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+          <div className="md:col-span-3 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+            <h2 className="text-xl font-semibold text-white">Sign in</h2>
+            <p className="mt-1 text-sm text-white/70">
+              Use the temporary testing credentials provided.
+            </p>
+
+            <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+              <div>
+                <label className="block text-sm text-white/80">Username</label>
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="e.g., admin"
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white placeholder-white/40 outline-none focus:border-emerald-400"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-white/80">Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Your password"
+                  className="mt-1 w-full rounded-lg border border-white/10 bg-black/40 px-3 py-2 text-white placeholder-white/40 outline-none focus:border-emerald-400"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center justify-center rounded-lg bg-emerald-500 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-emerald-600 disabled:opacity-60"
+              >
+                {loading ? 'Signing in…' : 'Sign in'}
+              </button>
+            </form>
+
+            {message && (
+              <div className={`mt-4 text-sm ${role ? 'text-emerald-300' : 'text-rose-300'}`}>
+                {message}
+              </div>
+            )}
+          </div>
+
+          <div className="md:col-span-2 space-y-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
+              <h3 className="text-sm font-medium text-white">Temporary credentials</h3>
+              <ul className="mt-2 space-y-2 text-sm">
+                {TEST_CREDENTIALS.map((c) => (
+                  <li
+                    key={c.role}
+                    className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-white/90"
+                  >
+                    <span className="font-medium">{c.role}</span>
+                    <span className="ml-3 text-white/70">
+                      {c.username} / {c.password}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-2 text-xs text-white/60">
+                For demo only. In production, this will be replaced by secure authentication.
+              </p>
+            </div>
+
+            {role && (
+              <div className="rounded-2xl border border-emerald-400/30 bg-emerald-500/10 p-4 text-sm text-emerald-200">
+                You are signed in as <span className="font-semibold">{role}</span>.
+              </div>
+            )}
+          </div>
         </div>
-
-        <form onSubmit={handleSubmit} className="bg-gray-50 border border-gray-200 rounded-xl p-6 shadow-sm">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="e.g. john.doe"
-              className="mt-1 w-full rounded-md border-gray-300 focus:border-cyan-500 focus:ring-cyan-500"
-              required
-            />
-          </div>
-
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="mt-1 w-full rounded-md border-gray-300 focus:border-cyan-500 focus:ring-cyan-500"
-              required
-            />
-          </div>
-
-          <div className="mt-4 flex items-center justify-between">
-            <label className="inline-flex items-center gap-2 text-sm text-gray-600">
-              <input type="checkbox" className="rounded border-gray-300 text-cyan-600 focus:ring-cyan-500" />
-              Remember me
-            </label>
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-cyan-600 text-white hover:bg-cyan-500 disabled:opacity-50"
-              disabled={loading}
-            >
-              {loading ? 'Signing in…' : 'Sign In'}
-            </button>
-          </div>
-
-          <p className="mt-4 text-xs text-gray-500">By continuing, you agree to our acceptable use and security policies.</p>
-        </form>
       </div>
     </section>
   );

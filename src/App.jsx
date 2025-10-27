@@ -1,27 +1,45 @@
+import React from 'react';
 import HeroSpline from './components/HeroSpline';
 import LoginPanel from './components/LoginPanel';
 import StatusLegend from './components/StatusLegend';
 import RolesShowcase from './components/RolesShowcase';
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <HeroSpline />
-      <LoginPanel />
-      <StatusLegend />
-      <RolesShowcase />
-
-      <footer className="w-full bg-black text-white">
-        <div className="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row gap-4 items-center justify-between">
-          <p className="text-sm text-white/70">© {new Date().getFullYear()} Pramodini Medicare Pvt. Ltd. All rights reserved.</p>
-          <div className="flex items-center gap-4 text-sm text-white/70">
-            <a href="#overview" className="hover:text-white">Status Legend</a>
-            <a href="#login" className="hover:text-white">Login</a>
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white">
+      <header className="mx-auto max-w-6xl px-6 py-6 md:px-10">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-8 rounded-lg bg-emerald-500" />
+            <span className="text-lg font-semibold">Pramodini Medicare</span>
           </div>
+          <nav className="hidden gap-6 text-sm text-white/80 md:flex">
+            <a href="#login" className="hover:text-white">Login</a>
+            <a href="#roles" className="hover:text-white">Roles</a>
+            <a href="#status" className="hover:text-white">Status</a>
+          </nav>
+        </div>
+      </header>
+
+      <main className="space-y-10 pb-16">
+        <div className="mx-auto max-w-6xl px-6 md:px-10">
+          <HeroSpline />
+        </div>
+
+        <LoginPanel />
+
+        <div id="status">
+          <StatusLegend />
+        </div>
+
+        <RolesShowcase />
+      </main>
+
+      <footer className="border-t border-white/10 py-8">
+        <div className="mx-auto max-w-6xl px-6 md:px-10 text-sm text-white/60">
+          © {new Date().getFullYear()} Pramodini Medicare Pvt. Ltd. All rights reserved.
         </div>
       </footer>
     </div>
   );
 }
-
-export default App;
