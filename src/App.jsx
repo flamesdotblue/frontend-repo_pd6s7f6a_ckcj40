@@ -1,8 +1,8 @@
 import React from 'react';
 import HeroSpline from './components/HeroSpline';
-import LoginPanel from './components/LoginPanel';
 import StatusLegend from './components/StatusLegend';
 import RolesShowcase from './components/RolesShowcase';
+import RoleDashboards from './components/RoleDashboards';
 
 export default function App() {
   return (
@@ -14,9 +14,9 @@ export default function App() {
             <span className="text-lg font-semibold">Pramodini Medicare</span>
           </div>
           <nav className="hidden gap-6 text-sm text-white/80 md:flex">
-            <a href="#login" className="hover:text-white">Login</a>
             <a href="#roles" className="hover:text-white">Roles</a>
             <a href="#status" className="hover:text-white">Status</a>
+            <a href="#dashboards" className="hover:text-white">Dashboards</a>
           </nav>
         </div>
       </header>
@@ -26,7 +26,9 @@ export default function App() {
           <HeroSpline />
         </div>
 
-        <LoginPanel />
+        <div id="dashboards">
+          <RoleDashboards />
+        </div>
 
         <div id="status">
           <StatusLegend />
